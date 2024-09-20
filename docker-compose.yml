@@ -1,0 +1,29 @@
+services:
+  tomcat:
+    build: .
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    depends_on:
+      main-db:
+        condition: service_healthy
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://main-db:5432/library
+  main-db:
+    image: postgres:16.1
+    container_name: main-db
+    ports:
+      - 6432:5432
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data/
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    environment:
+      - POSTGRES_DB=library
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=12345
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      timeout: 5s
+      interval: 5s
+      retries: 10
+
