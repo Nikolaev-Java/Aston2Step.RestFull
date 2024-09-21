@@ -37,10 +37,9 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author update(Author author, long id) {
         Author authorToUpdate = authorRepository.findById(id).orElseThrow(() -> new RuntimeException("Author not found"));
-        ServiceUtils.updateEntity(authorToUpdate, author.getFirstName(),
-                authorUpdate -> authorUpdate.setFirstName(author.getFirstName()));
-        ServiceUtils.updateEntity(authorToUpdate, author.getLastName(),
-                author1 -> author1.setLastName(author.getLastName()));
+        ServiceUtils.updateEntity(author.getFirstName(), authorToUpdate::setFirstName);
+        ServiceUtils.updateEntity(author.getLastName(), authorToUpdate::setLastName);
+
         return authorRepository.save(authorToUpdate, id);
     }
 

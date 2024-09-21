@@ -30,14 +30,15 @@ class AuthorServiceImplTest {
     @DisplayName("Update author (full param) functionality")
     void givenAuthorService_whenUpdateAuthor_thenUpdateAuthor() {
         //given
-        Author author = Author.builder().id(1).firstName("test").lastName("test").build();
-        BDDMockito.given(authorCrudRepository.findById(author.getId())).willReturn(Optional.of(author));
-        BDDMockito.given(authorCrudRepository.save(author, author.getId())).willReturn(author);
+        Author expected = Author.builder().id(1).firstName("update").lastName("update").build();
+        Author returnedRepository = Author.builder().id(1).firstName("test").lastName("test").build();
+        BDDMockito.given(authorCrudRepository.findById(expected.getId())).willReturn(Optional.of(returnedRepository));
+        BDDMockito.given(authorCrudRepository.save(expected, expected.getId())).willReturn(expected);
         //when
-        Author actual = authorService.update(author, author.getId());
+        Author actual = authorService.update(expected, expected.getId());
         //that
-        assertThat(actual).isEqualTo(author);
-        verify(authorCrudRepository, times(1)).save(author, author.getId());
+        assertThat(actual).isEqualTo(expected);
+        verify(authorCrudRepository, times(1)).save(expected, expected.getId());
     }
 
     @Test
@@ -56,14 +57,15 @@ class AuthorServiceImplTest {
     @DisplayName("Update author (one param) functionality")
     void givenAuthorService_whenUpdateAuthorOneParam_thenUpdateAuthor() {
         //given
-        Author author = Author.builder().id(1).firstName("update").lastName("test").build();
+        Author expected = Author.builder().id(1).firstName("update").lastName("test").build();
+        Author returnedRepository = Author.builder().id(1).firstName("test").lastName("test").build();
         Author updatedAuthor = Author.builder().firstName("update").build();
-        BDDMockito.given(authorCrudRepository.findById(author.getId())).willReturn(Optional.of(author));
-        BDDMockito.given(authorCrudRepository.save(author, author.getId())).willReturn(author);
+        BDDMockito.given(authorCrudRepository.findById(expected.getId())).willReturn(Optional.of(returnedRepository));
+        BDDMockito.given(authorCrudRepository.save(expected, expected.getId())).willReturn(expected);
         //when
-        Author actual = authorService.update(updatedAuthor, author.getId());
+        Author actual = authorService.update(updatedAuthor, expected.getId());
         //that
-        assertThat(actual).isEqualTo(author);
-        verify(authorCrudRepository, times(1)).save(author, author.getId());
+        assertThat(actual).isEqualTo(expected);
+        verify(authorCrudRepository, times(1)).save(expected, expected.getId());
     }
 }

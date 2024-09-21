@@ -7,9 +7,9 @@ public class ServiceUtils {
     private ServiceUtils() {
     }
 
-    public static <T, E> void updateEntity(T entity, E param, Consumer<T> consumer) {
+    public static <E> void updateEntity(E param, Consumer<E> consumer) {
         if (Objects.nonNull(param)) {
-            consumer.accept(entity);
+            consumer.accept(param);
         }
     }
 }

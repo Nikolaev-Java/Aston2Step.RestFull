@@ -33,7 +33,8 @@ class BookServiceImplTest {
     void givenBookService_whenUpdateBook_thenUpdateBook() {
         //given
         Book book = CreatedData.createBook(1);
-        BDDMockito.given(repository.findById(book.getId())).willReturn(Optional.of(book));
+        Book returnedRepository = Book.builder().id(1L).name("test").year(123).build();
+        BDDMockito.given(repository.findById(book.getId())).willReturn(Optional.of(returnedRepository));
         BDDMockito.given(repository.save(book, book.getId())).willReturn(book);
         //when
         Book actual = service.update(book, book.getId());
@@ -59,8 +60,9 @@ class BookServiceImplTest {
     void givenBookService_whenUpdateBookOneParam_thenUpdateBook() {
         //given
         Book book = Book.builder().id(1).name("update").author(CreatedData.createAuthor(1)).build();
+        Book returnedRepository = Book.builder().id(1L).name("test").year(123).build();
         Book updatedBook = Book.builder().name("update").build();
-        BDDMockito.given(repository.findById(book.getId())).willReturn(Optional.of(book));
+        BDDMockito.given(repository.findById(book.getId())).willReturn(Optional.of(returnedRepository));
         BDDMockito.given(repository.save(book, book.getId())).willReturn(book);
         //when
         Book actual = service.update(updatedBook, book.getId());

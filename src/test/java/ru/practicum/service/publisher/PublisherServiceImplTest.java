@@ -33,7 +33,8 @@ class PublisherServiceImplTest {
     void givenAuthorService_whenUpdateAuthor_thenUpdateAuthor() {
         //given
         Publisher publisher = CreatedData.createPublisher(1);
-        BDDMockito.given(repository.findById(publisher.getId())).willReturn(Optional.of(publisher));
+        Publisher returnedRepository = Publisher.builder().id(1).name("test").city("test").build();
+        BDDMockito.given(repository.findById(publisher.getId())).willReturn(Optional.of(returnedRepository));
         BDDMockito.given(repository.save(publisher, publisher.getId())).willReturn(publisher);
         //when
         Publisher actual = service.update(publisher, publisher.getId());
@@ -59,8 +60,9 @@ class PublisherServiceImplTest {
     void givenAuthorService_whenUpdateAuthorOneParam_thenUpdateAuthor() {
         //given
         Publisher publisher = Publisher.builder().id(1).name("update").city("test").build();
+        Publisher returnedRepository = Publisher.builder().id(1).name("test").city("test").build();
         Publisher updatedBook = Publisher.builder().name("update").build();
-        BDDMockito.given(repository.findById(publisher.getId())).willReturn(Optional.of(publisher));
+        BDDMockito.given(repository.findById(publisher.getId())).willReturn(Optional.of(returnedRepository));
         BDDMockito.given(repository.save(publisher, publisher.getId())).willReturn(publisher);
         //when
         Publisher actual = service.update(updatedBook, publisher.getId());

@@ -33,10 +33,8 @@ public class PublisherServiceImpl implements PublisherService {
     public Publisher update(Publisher publisher, long id) {
         Publisher publisherToUpdate = repository.findById(id).
                 orElseThrow(() -> new NotFoundException("Publisher with id " + id + " not found"));
-        ServiceUtils.updateEntity(publisherToUpdate, publisher.getCity(),
-                publisher1 -> publisher1.setCity(publisher.getCity()));
-        ServiceUtils.updateEntity(publisherToUpdate, publisher.getName(),
-                publisher1 -> publisher1.setName(publisher.getName()));
+        ServiceUtils.updateEntity(publisher.getCity(), publisherToUpdate::setCity);
+        ServiceUtils.updateEntity(publisher.getName(), publisherToUpdate::setName);
         return repository.save(publisherToUpdate, id);
     }
 

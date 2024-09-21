@@ -32,9 +32,9 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book update(Book book, long id) {
         Book bookToUpdate = repository.findById(id).orElseThrow(() -> new NotFoundException("Book not found"));
-        ServiceUtils.updateEntity(bookToUpdate, book.getName(), book1 -> book1.setName(book.getName()));
-        ServiceUtils.updateEntity(bookToUpdate, book.getYear(), book1 -> book1.setYear(book.getYear()));
-        ServiceUtils.updateEntity(bookToUpdate, book.getAuthor(), book1 -> book1.setAuthor(book.getAuthor()));
+        ServiceUtils.updateEntity(book.getName(), bookToUpdate::setName);
+        ServiceUtils.updateEntity(book.getYear(), bookToUpdate::setYear);
+        ServiceUtils.updateEntity(book.getAuthor(), bookToUpdate::setAuthor);
         return repository.save(bookToUpdate, id);
     }
 
